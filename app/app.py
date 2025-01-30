@@ -99,18 +99,18 @@ def load_notes():
 
 
         
-st.subheader("📊 Ferramentas de Conversões")
+st.subheader("📊 Ferramentas")
 
 col1, col2 = st.columns([4,2])
 
 with col2:
-    st.subheader("Bloco de Anotações")
+    # st.subheader("Bloco de Anotações")
 
-    notes = st.text_area("Digite suas anotações aqui:", value=load_notes(), height=300)
+    # notes = st.text_area("Digite suas anotações aqui:", value=load_notes(), height=300)
 
-    if st.button("Salvar Anotações"):
-        save_notes(notes)
-        st.success("Anotações salvas com sucesso!")
+    # if st.button("Salvar Anotações"):
+    #     save_notes(notes)
+    #     st.success("Anotações salvas com sucesso!")
 
 
     # Cabeçalho
