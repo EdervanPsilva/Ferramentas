@@ -1,0 +1,4 @@
+openpyxl
+streamlit
+python-dateutil
+pandas
