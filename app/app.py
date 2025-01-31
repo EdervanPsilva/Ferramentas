@@ -2,6 +2,7 @@ import streamlit as st
 import datetime
 from dateutil.relativedelta import relativedelta
 import pandas as pd
+import plotly.express as px
 
 st.set_page_config(page_title="Ferramentas", layout="wide")
 
