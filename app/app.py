@@ -36,7 +36,16 @@ def show_detailed_summary(df):
         for col in categorical_columns:
             st.write(f"Categoria: {col}")
             st.write(df[col].value_counts())
-            # st.write(f"Proporção: \n{df[col].value_counts(normalize=True)}\n")
+            fig = px.bar(df[col].value_counts(), title=f"Distribuição de {col}")
+            st.plotly_chart(fig)
+
+    # Análise de colunas numéricas
+    numerical_columns = df.select_dtypes(include=['number']).columns
+    if len(numerical_columns) > 0:
+        st.write("**Distribuição das Variáveis Numéricas**:")
+        for col in numerical_columns:
+            fig = px.histogram(df, x=col, title=f"Distribuição de {col}")
+            st.plotly_chart(fig)
 
 def calcular_diferenca_datas(data_inicio, data_fim):
     delta = data_fim - data_inicio
@@ -103,7 +112,7 @@ st.subheader("📊 Ferramentas")
 
 col1, col2 = st.columns([4,2])
 
-with col2:
+with col1:
     # st.subheader("Bloco de Anotações")
 
     # notes = st.text_area("Digite suas anotações aqui:", value=load_notes(), height=300)
@@ -126,7 +135,7 @@ with col2:
         st.write("Por favor, faça o upload de um arquivo.")
 
 
-with col1:
+with col2:
     
 
     st.subheader("🧮 Calculadora")

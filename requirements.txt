@@ -2,3 +2,4 @@ openpyxl
 streamlit
 python-dateutil
 pandas
+plotly
