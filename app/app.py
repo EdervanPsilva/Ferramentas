@@ -39,7 +39,7 @@ def show_detailed_summary(df):
             st.write(df[col].value_counts())
             fig = px.bar(df[col].value_counts(), 
              title=f"Distribuição de {col}", 
-             color_discrete_sequence=["green"])
+             color_discrete_sequence=["green"],text_auto=True)
 
             fig.update_layout(
                 xaxis_title="",  # Remove o título do eixo X
