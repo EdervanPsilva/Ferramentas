@@ -37,7 +37,16 @@ def show_detailed_summary(df):
         for col in categorical_columns:
             st.write(f"Categoria: {col}")
             st.write(df[col].value_counts())
-            fig = px.bar(df[col].value_counts(), title=f"Distribuição de {col}")
+            fig = px.bar(df[col].value_counts(), 
+             title=f"Distribuição de {col}", 
+             color_discrete_sequence=["green"])
+
+            fig.update_layout(
+                xaxis_title="",  # Remove o título do eixo X
+                yaxis_title="",  # Remove o título do eixo Y
+                xaxis_showticklabels=True,  # Remove os rótulos do eixo X
+                yaxis_showticklabels=True   # Remove os rótulos do eixo Y
+                )
             st.plotly_chart(fig)
 
     # Análise de colunas numéricas
