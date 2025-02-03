@@ -7,6 +7,7 @@ import plotly.express as px
 st.set_page_config(page_title="Ferramentas", layout="wide")
 
  # Função para carregar o arquivo CSV ou Excel
+@st.cache_data
 def load_file():
     uploaded_file = st.file_uploader("Escolha um arquivo CSV ou Excel", type=["csv", "xlsx"])
     if uploaded_file is not None:
@@ -180,8 +181,7 @@ with col1:
     # Cabeçalho
     st.subheader("Analisador de Dados CSV/Excel")
 
-    # Carregar arquivo
-    @st.cache_data
+    # Carregar arquivo    
     data = load_file()
 
     # Verifica se há dados carregados
