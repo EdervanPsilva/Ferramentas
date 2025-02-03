@@ -61,7 +61,7 @@ def show_detailed_summary(df):
 
         # Adicionando seleção para gráfico personalizado
         st.write("### Gráfico Personalizado")
-        div1,div2, st.columns(2)
+        div1,div2 = st.columns(2)
         with div1:
             selected_cat_col = st.selectbox("Escolha uma coluna categórica (Eixo X):", categorical_columns)
         with div2:
