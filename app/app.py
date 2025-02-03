@@ -181,7 +181,7 @@ def load_notes():
         
 st.subheader("📊 Ferramentas")
 
-col1, col2 = st.columns([4,1,5])
+col1, col2 = st.columns([4,1.5])
 
 with col1:
 
