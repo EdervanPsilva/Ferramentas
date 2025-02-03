@@ -84,7 +84,7 @@ def apply_filters(df):
     if df is None:
         return None
 
-    with st.sidebar.expander("🔧 Configuração da Tabela", expanded=True):
+    with st.sidebar.expander("🔧 Configuração da Tabela", expanded=False):
         # Seleção de colunas
         available_columns = df.columns.tolist()
         selected_columns = st.multiselect("Selecione as colunas a serem exibidas", available_columns, default=available_columns)
@@ -101,7 +101,7 @@ def apply_filters(df):
     for col in categorical_columns:
         unique_values = filtered_df[col].dropna().unique().tolist()
         if unique_values:
-            with st.sidebar.expander(f"Filtrar {col}", expanded=True):
+            with st.sidebar.expander(f"Filtrar {col}", expanded=False):
                 selected_values = st.multiselect(f"Escolha valores para {col}", unique_values, default=unique_values)
                 filtered_df = filtered_df[filtered_df[col].isin(selected_values)]
 
@@ -112,7 +112,7 @@ def apply_filters(df):
         max_val = float(filtered_df[col].max())
 
         if min_val < max_val:  # Evita erro quando os valores são iguais
-            with st.sidebar.expander(f"Filtrar {col}", expanded=True):
+            with st.sidebar.expander(f"Filtrar {col}", expanded=False):
                 selected_range = st.slider(f"Defina o intervalo de {col}", min_val, max_val, (min_val, max_val))
                 filtered_df = filtered_df[(filtered_df[col] >= selected_range[0]) & (filtered_df[col] <= selected_range[1])]
 
