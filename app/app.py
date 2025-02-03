@@ -181,6 +181,7 @@ with col1:
     st.subheader("Analisador de Dados CSV/Excel")
 
     # Carregar arquivo
+    @st.cache_data
     data = load_file()
 
     # Verifica se há dados carregados
