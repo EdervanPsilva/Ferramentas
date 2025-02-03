@@ -6,7 +6,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="Ferramentas", layout="wide")
 
-# Função para carregar o arquivo CSV ou Excel
+ # Função para carregar o arquivo CSV ou Excel
 def load_file():
     uploaded_file = st.file_uploader("Escolha um arquivo CSV ou Excel", type=["csv", "xlsx"])
     if uploaded_file is not None:
@@ -24,7 +24,8 @@ def load_file():
 
 # Função para mostrar um resumo detalhado dos dados
 def show_detailed_summary(df):
-    st.write("### Visão geral dos Dados")   
+    st.write("### Visão geral dos Dados")
+    st.write(df)   
 
     # Contagem de valores únicos por coluna
     st.write("**Contagem de Valores Únicos por Coluna:**")
@@ -35,27 +36,87 @@ def show_detailed_summary(df):
     if len(categorical_columns) > 0:
         st.write("**Análise das Categorias**:")
         for col in categorical_columns:
-            st.write(f"Categoria: {col}")
-            st.write(df[col].value_counts())
-            fig = px.bar(df[col].value_counts(), 
-             title=f"Distribuição de {col}", 
-             color_discrete_sequence=["green"],text_auto=True)
+            div1,div2 = st.columns([2,4],gap='Small')
+            with div1:
+                st.write(f"Categoria: {col}")            
+                st.write(df[col].value_counts())
+            with div2:
+                fig = px.bar(df[col].value_counts(), 
+                            title=f"Distribuição de {col}", 
+                            color_discrete_sequence=["green"], text_auto=True)
 
-            fig.update_layout(
-                xaxis_title="",  # Remove o título do eixo X
-                yaxis_title="",  # Remove o título do eixo Y
-                xaxis_showticklabels=True,  # Remove os rótulos do eixo X
-                yaxis_showticklabels=True   # Remove os rótulos do eixo Y
+                fig.update_layout(
+                    xaxis_title="",  
+                    yaxis_title="",  
+                    xaxis_showticklabels=True,  
+                    yaxis_showticklabels=True   
                 )
-            st.plotly_chart(fig)
+                st.plotly_chart(fig)
 
     # Análise de colunas numéricas
     numerical_columns = df.select_dtypes(include=['number']).columns
     if len(numerical_columns) > 0:
         st.write("**Distribuição das Variáveis Numéricas**:")
         for col in numerical_columns:
-            fig = px.histogram(df, x=col, title=f"Distribuição de {col}")
+            fig = px.histogram(df, x=col, title=f"Distribuição de {col}",color_discrete_sequence=["green"], text_auto=True)
             st.plotly_chart(fig)
+
+        # Adicionando seleção para gráfico personalizado
+        st.write("### Gráfico Personalizado")
+        selected_cat_col = st.selectbox("Escolha uma coluna categórica (Eixo X):", categorical_columns)
+        selected_num_col = st.selectbox("Escolha uma coluna numérica (Eixo Y - Soma):", numerical_columns)
+
+        if selected_cat_col and selected_num_col:
+            aggregated_df = df.groupby(selected_cat_col, as_index=False)[selected_num_col].sum()
+
+            fig = px.bar(aggregated_df, x=selected_cat_col, y=selected_num_col, 
+                         title=f"Soma de {selected_num_col} por {selected_cat_col}",
+                         color=selected_cat_col, text_auto=True)
+            fig.update_layout(
+                xaxis_title="",  
+                yaxis_title="",  
+                xaxis_showticklabels=True,  
+                yaxis_showticklabels=True   
+            )
+            st.plotly_chart(fig)
+
+def apply_filters(df):
+    if df is None:
+        return None
+
+    with st.sidebar.expander("🔧 Configuração da Tabela", expanded=True):
+        # Seleção de colunas
+        available_columns = df.columns.tolist()
+        selected_columns = st.multiselect("Selecione as colunas a serem exibidas", available_columns, default=available_columns)
+
+    if not selected_columns:
+        return None  # Retorna None se nenhuma coluna for selecionada
+
+    filtered_df = df[selected_columns].copy()
+
+    st.sidebar.header("Filtros")
+
+    # Filtros para colunas categóricas
+    categorical_columns = filtered_df.select_dtypes(include=['object', 'category']).columns
+    for col in categorical_columns:
+        unique_values = filtered_df[col].dropna().unique().tolist()
+        if unique_values:
+            with st.sidebar.expander(f"Filtrar {col}", expanded=True):
+                selected_values = st.multiselect(f"Escolha valores para {col}", unique_values, default=unique_values)
+                filtered_df = filtered_df[filtered_df[col].isin(selected_values)]
+
+    # Filtros para colunas numéricas
+    numerical_columns = filtered_df.select_dtypes(include=['number']).columns
+    for col in numerical_columns:
+        min_val = float(filtered_df[col].min())
+        max_val = float(filtered_df[col].max())
+
+        if min_val < max_val:  # Evita erro quando os valores são iguais
+            with st.sidebar.expander(f"Filtrar {col}", expanded=True):
+                selected_range = st.slider(f"Defina o intervalo de {col}", min_val, max_val, (min_val, max_val))
+                filtered_df = filtered_df[(filtered_df[col] >= selected_range[0]) & (filtered_df[col] <= selected_range[1])]
+
+    return filtered_df
 
 def calcular_diferenca_datas(data_inicio, data_fim):
     delta = data_fim - data_inicio
@@ -123,13 +184,6 @@ st.subheader("📊 Ferramentas")
 col1, col2 = st.columns([4,2])
 
 with col1:
-    # st.subheader("Bloco de Anotações")
-
-    # notes = st.text_area("Digite suas anotações aqui:", value=load_notes(), height=300)
-
-    # if st.button("Salvar Anotações"):
-    #     save_notes(notes)
-    #     st.success("Anotações salvas com sucesso!")
 
 
     # Cabeçalho
@@ -140,7 +194,8 @@ with col1:
 
     # Verifica se há dados carregados
     if data is not None:
-        show_detailed_summary(data)
+        filtered_data = apply_filters(data)
+        show_detailed_summary(filtered_data)
     else:
         st.write("Por favor, faça o upload de um arquivo.")
 
