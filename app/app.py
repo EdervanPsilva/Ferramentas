@@ -211,7 +211,7 @@ with col2:
     st.write("_______")
 
 
-    st.subheader("📅 Cálculo de Diferença entre Datas")
+    st.write("📅 Cálculo de Diferença entre Datas")
     data_inicio = st.date_input("Selecione a data de início")
     data_fim = st.date_input("Selecione a data de fim", datetime.date.today())
     if data_inicio and data_fim and data_inicio <= data_fim:
@@ -221,7 +221,7 @@ with col2:
         st.warning("A data final deve ser maior ou igual à data de início.")
     st.write("_______")
 
-    st.subheader("📊 Cálculo de Percentual")
+    st.write("📊 Cálculo de Percentual")
     valor_total = st.number_input("Digite o valor total", min_value=0.0, step=1.0)
     valor_parcial = st.number_input("Digite o valor parcial", min_value=0.0, step=1.0)
     if valor_total > 0:
@@ -229,7 +229,7 @@ with col2:
         st.success(f"O valor parcial representa {percentual:.2f}% do total.")
     st.write("_______")
 
-    st.subheader("📏 Regra de Três Simples")
+    st.write("📏 Regra de Três Simples")
     base = st.number_input("Valor base", min_value=0.0, step=1.0)
     referencia = st.number_input("Valor de referência", min_value=0.0, step=1.0)
     novo_valor = st.number_input("Novo valor a comparar", min_value=0.0, step=1.0)
@@ -240,7 +240,7 @@ with col2:
 
 
 
-    st.subheader("⏳ Conversor de Unidades de Tempo")
+    st.write("⏳ Conversor de Unidades de Tempo")
     valor_tempo = st.number_input("Digite o valor de tempo", min_value=0.0, step=1.0)
     opcoes_tempo = [
         "Horas para Minutos", "Horas para Segundos",
@@ -252,7 +252,7 @@ with col2:
     st.success(f"Resultado: {resultado_tempo:.2f}")
     st.write("_______")
 
-    st.subheader("📏 Conversor Universal")
+    st.write("📏 Conversor Universal")
     valor_medida = st.number_input("Digite o valor", min_value=0.0, step=1.0)
     opcoes_medida = [
         "Km para m", "m para Km", "m para cm", "cm para m", "m para mm", "mm para m",
