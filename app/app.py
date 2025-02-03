@@ -35,23 +35,21 @@ def show_detailed_summary(df):
     categorical_columns = df.select_dtypes(include=['object', 'category']).columns
     if len(categorical_columns) > 0:
         st.write("**Análise das Categorias**:")
-        for col in categorical_columns:
-            div1,div2 = st.columns([2,4],gap='Small')
-            with div1:
-                st.write(f"Categoria: {col}")            
-                st.write(df[col].value_counts())
-            with div2:
-                fig = px.bar(df[col].value_counts(), 
-                            title=f"Distribuição de {col}", 
-                            color_discrete_sequence=["green"], text_auto=True)
+        for col in categorical_columns:                   
+            st.write(f"Categoria: {col}")            
+            st.write(df[col].value_counts())
+            
+            fig = px.bar(df[col].value_counts(), 
+                        title=f"Distribuição de {col}", 
+                        color_discrete_sequence=["green"], text_auto=True)
 
-                fig.update_layout(
-                    xaxis_title="",  
-                    yaxis_title="",  
-                    xaxis_showticklabels=True,  
-                    yaxis_showticklabels=True   
-                )
-                st.plotly_chart(fig)
+            fig.update_layout(
+                xaxis_title="",  
+                yaxis_title="",  
+                xaxis_showticklabels=True,  
+                yaxis_showticklabels=True   
+            )
+            st.plotly_chart(fig)
 
     # Análise de colunas numéricas
     numerical_columns = df.select_dtypes(include=['number']).columns
@@ -166,16 +164,6 @@ def calcular_expressao(expressao):
     except Exception as e:
         return f"Erro: {e}"
 
-def save_notes(notes):
-    with open("notes.txt", "w", encoding="utf-8") as file:
-        file.write(notes)
-
-def load_notes():
-    try:
-        with open("notes.txt", "r", encoding="utf-8") as file:
-            return file.read()
-    except FileNotFoundError:
-        return ""
 
 
         
