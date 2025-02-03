@@ -181,7 +181,7 @@ def load_notes():
         
 st.subheader("📊 Ferramentas")
 
-col1, col2 = st.columns([4,2])
+col1, col2 = st.columns([4,1,5])
 
 with col1:
 
@@ -203,7 +203,7 @@ with col1:
 with col2:
     
 
-    st.subheader("🧮 Calculadora")
+    st.write("🧮 Calculadora")
     expressao = st.text_input("Digite sua expressão matemática:")
     if expressao:
         resultado_calculadora = calcular_expressao(expressao)
