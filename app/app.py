@@ -61,8 +61,11 @@ def show_detailed_summary(df):
 
         # Adicionando seleção para gráfico personalizado
         st.write("### Gráfico Personalizado")
-        selected_cat_col = st.selectbox("Escolha uma coluna categórica (Eixo X):", categorical_columns)
-        selected_num_col = st.selectbox("Escolha uma coluna numérica (Eixo Y - Soma):", numerical_columns)
+        div1,div2, st.columns(2)
+        with div1:
+            selected_cat_col = st.selectbox("Escolha uma coluna categórica (Eixo X):", categorical_columns)
+        with div2:
+            selected_num_col = st.selectbox("Escolha uma coluna numérica (Eixo Y - Soma):", numerical_columns)
 
         if selected_cat_col and selected_num_col:
             aggregated_df = df.groupby(selected_cat_col, as_index=False)[selected_num_col].sum()
