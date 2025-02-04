@@ -3,6 +3,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import pandas as pd
 import plotly.express as px
+import os
 
 st.set_page_config(page_title="Ferramentas", layout="wide")
 
@@ -293,3 +294,23 @@ with col2:
     st.write("_______")
 
 
+# Nome do arquivo para armazenar o contador
+counter_file = "counter.txt"
+
+# Verifica se o arquivo existe, se não, cria com valor 0
+if not os.path.exists(counter_file):
+    with open(counter_file, "w") as f:
+        f.write("0")
+
+# Lê o valor atual
+with open(counter_file, "r") as f:
+    visit_count = int(f.read())
+
+# Incrementa o contador
+visit_count += 1
+
+# Salva o novo valor
+with open(counter_file, "w") as f:
+    f.write(str(visit_count))
+
+st.write(f"Este projeto já foi acessado {visit_count} vezes.")
