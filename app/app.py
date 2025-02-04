@@ -6,8 +6,7 @@ import plotly.express as px
 
 st.set_page_config(page_title="Ferramentas", layout="wide")
 
- # Função para carregar o arquivo CSV ou Excel
-
+# Função para carregar o arquivo CSV ou Excel
 def load_file():
     uploaded_file = st.file_uploader("Escolha um arquivo CSV ou Excel", type=["csv", "xlsx"])
     if uploaded_file is not None:
@@ -168,8 +167,7 @@ def calcular_expressao(expressao):
     except Exception as e:
         return f"Erro: {e}"
 
-
- #Calculos de horas
+#Calculos de horas
 def converter_para_minutos(hora_str):
     """Converte uma string no formato HH:MM para minutos inteiros."""
     horas, minutos = map(int, hora_str.split(":"))
@@ -195,7 +193,6 @@ def calcular_diferenca_horas(hora_inicio, hora_fim):
 
         
 st.subheader("📊 Ferramentas")
-
 col1, col2 = st.columns([4,1.5])
 
 with col1:
@@ -213,7 +210,6 @@ with col1:
         show_detailed_summary(filtered_data)
     else:
         st.write("Por favor, faça o upload de um arquivo.")
-
 
 with col2:  
 
