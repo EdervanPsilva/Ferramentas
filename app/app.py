@@ -169,6 +169,29 @@ def calcular_expressao(expressao):
         return f"Erro: {e}"
 
 
+ #Calculos de horas
+def converter_para_minutos(hora_str):
+    """Converte uma string no formato HH:MM para minutos inteiros."""
+    horas, minutos = map(int, hora_str.split(":"))
+    return horas * 60 + minutos
+
+def converter_para_horas(minutos_totais):
+    """Converte minutos inteiros para o formato HH:MM."""
+    horas = minutos_totais // 60
+    minutos = minutos_totais % 60
+    return f"{horas:02}:{minutos:02}"
+
+def calcular_diferenca_horas(hora_inicio, hora_fim):
+    """Calcula a diferença entre duas horas no formato HH:MM, permitindo horas acima de 24h."""
+    minutos_inicio = converter_para_minutos(hora_inicio)
+    minutos_fim = converter_para_minutos(hora_fim)
+    
+    if minutos_fim < minutos_inicio:
+        minutos_fim += 24 * 60  # Ajusta para casos em que a hora final passa da meia-noite
+    
+    diferenca_minutos = minutos_fim - minutos_inicio
+    return converter_para_horas(diferenca_minutos)
+
 
         
 st.subheader("📊 Ferramentas")
@@ -192,8 +215,7 @@ with col1:
         st.write("Por favor, faça o upload de um arquivo.")
 
 
-with col2:
-    
+with col2:  
 
     st.write("🧮 Calculadora")
     expressao = st.text_input("Digite sua expressão matemática:")
@@ -242,6 +264,23 @@ with col2:
     unidade_tempo = st.selectbox("Escolha a conversão", opcoes_tempo)
     resultado_tempo = converter_tempo(valor_tempo, unidade_tempo)
     st.success(f"Resultado: {resultado_tempo:.2f}")
+    st.write("_______")
+
+    st.write("⏰ Cálculo de Diferença entre Horas")
+
+    hora_inicio = st.text_input("Digite a hora de início (HH:MM)", "08:00", key="hora_inicio")
+    hora_fim = st.text_input("Digite a hora de fim (HH:MM)", "17:00", key="hora_fim")
+
+    # Validação e cálculo
+    try:
+        if hora_inicio and hora_fim:
+            resultado = calcular_diferenca_horas(hora_inicio, hora_fim)
+            st.success(f"Diferença: {resultado}")
+        else:
+            st.warning("Por favor, insira as horas corretamente.")
+    except ValueError:
+        st.warning("Formato inválido! Use HH:MM, exemplo: 12:00 ou 01:50.")
+
     st.write("_______")
 
     st.write("📏 Conversor Universal")
