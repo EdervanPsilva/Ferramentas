@@ -297,9 +297,3 @@ with col2:
     st.write("_______")
 
 
-if "visits" not in st.session_state:
-    st.session_state.visits = 0  # Inicializa contador
-
-st.session_state.visits += 1  # Incrementa a cada acesso
-
-st.write(f"Este projeto já foi acessado {st.session_state.visits} vezes.")
