@@ -313,4 +313,4 @@ visit_count += 1
 with open(counter_file, "w") as f:
     f.write(str(visit_count))
 
-st.write(f"Este projeto já foi utilizado {visit_count} vezes.")
+st.write(f"Este projeto já foi utilizado {visit_count} vezes. Obrigado por Utilizar!")
