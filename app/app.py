@@ -108,15 +108,15 @@ def apply_filters(df):
                 filtered_df = filtered_df[filtered_df[col].isin(selected_values)]
 
     # Filtros para colunas numéricas
-    numerical_columns = filtered_df.select_dtypes(include=['number']).columns
-    for col in numerical_columns:
-        min_val = float(filtered_df[col].min())
-        max_val = float(filtered_df[col].max())
+    # numerical_columns = filtered_df.select_dtypes(include=['number']).columns
+    # for col in numerical_columns:
+    #     min_val = float(filtered_df[col].min())
+    #     max_val = float(filtered_df[col].max())
 
-        if min_val < max_val:  # Evita erro quando os valores são iguais
-            with st.sidebar.expander(f"Filtrar {col}", expanded=False):
-                selected_range = st.slider(f"Defina o intervalo de {col}", min_val, max_val, (min_val, max_val))
-                filtered_df = filtered_df[(filtered_df[col] >= selected_range[0]) & (filtered_df[col] <= selected_range[1])]
+    #     if min_val < max_val:  # Evita erro quando os valores são iguais
+    #         with st.sidebar.expander(f"Filtrar {col}", expanded=False):
+    #             selected_range = st.slider(f"Defina o intervalo de {col}", min_val, max_val, (min_val, max_val))
+    #             filtered_df = filtered_df[(filtered_df[col] >= selected_range[0]) & (filtered_df[col] <= selected_range[1])]
 
     return filtered_df
 
